@@ -1,0 +1,22 @@
+{
+  "name": "galaxy-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-Coding-Network/Galaxy-Bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/The-Coding-Network/Galaxy-Bot/issues"
+  },
+  "homepage": "https://github.com/The-Coding-Network/Galaxy-Bot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
+}

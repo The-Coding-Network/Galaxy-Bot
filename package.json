@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/The-Coding-Network/Galaxy-Bot#readme",
   "dependencies": {
-    "discord.js": "^12.5.3"
+    "discord.js": "^12.5.3",
+    "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
+    "git": "^0.1.5",
+    "nodemon": "^2.0.7"
   }
 }

@@ -1,7 +1,7 @@
 module.exports = {
     name: 'verified',
     aliases: ['verify'],
-    async execute(client, message, args, Discord, offlines) {
+    async execute(client, message, args, Discord) {
         message.delete()
 
         const channel = message.guild.channels.cache.find(c => c.name === '「✅」verify')

@@ -5,7 +5,10 @@ require("dotenv").config()
 const db = require("quick.db");
 const table = new db.table("Tickets");
 const dbTable = new db.table("Tickets");
+<<<<<<< Updated upstream
 const config = require("./config.json");
+=======
+>>>>>>> Stashed changes
 
 client.commands = new Discord.Collection();
 

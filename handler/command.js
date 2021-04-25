@@ -11,6 +11,10 @@ module.exports = (client, Discord) => {
         }
         
     }
+<<<<<<< Updated upstream
     ['moderation', 'other', 'fun'].forEach(e => load_dir(e));
+=======
+    ['moderation', 'other', 'fun', 'Reaction_Roles'].forEach(e => load_dir(e));
+>>>>>>> Stashed changes
 
 }

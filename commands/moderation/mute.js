@@ -20,12 +20,12 @@ module.exports = {
         var targetID = msg.guild.members.cache.get(target.id)
         if(targetID.hasPermission('MANAGE_MESSAGES')) return msg.reply("You can not mute a staff member"); 
         if(!args[1]) {
-            if(!db.get(`user_${targetID.id}`)){
-                db.set(`user_${targetID.id}`, {warns: 0, kicks: 0, bans: 0, mutes: 0})
+            if(!db.get(`user_${target.id}`)){
+                db.set(`user_${target.id}`, {warns: 0, kicks: 0, bans: 0, mutes: 0})
             }
-            if(db.get(`user_${targetID.id}`)){
-                db.add(`user_${targetID.id}.mutes`, 1)
-                msg.reply(`This person now has ${db.get(`user_${targetID.id}.mutes`)} mutes`)
+            if(db.get(`user_${target.id}`)){
+                db.add(`user_${target.id}.mutes`, 1)
+                msg.reply(`This person now has ${db.get(`user_${target.id}.mutes`)} mutes`)
             }
 
         

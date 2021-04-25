@@ -5,17 +5,14 @@ require("dotenv").config()
 const db = require("quick.db");
 const table = new db.table("Tickets");
 const dbTable = new db.table("Tickets");
-<<<<<<< Updated upstream
 const config = require("./config.json");
-=======
->>>>>>> Stashed changes
 
 client.commands = new Discord.Collection();
 
 ['command', 'event'].forEach(handler => {
     require(`./handler/${handler}`)(client, Discord);
 });
-
+//modmail
 client.on("message", async message => {
   
     if(message.channel.type === "dm"){
@@ -210,4 +207,25 @@ client.on("message", async message => {
       };
   })
 
+client.on("message", async message => {
+    if(message.content.startsWith(`${config.prefix}unblock`)){
+      if(message.guild.member(message.author).roles.cache.has(config.roles.mod)){
+        var args = message.content.split(" ").slice(1);
+        client.users.fetch(`${args[0]}`).then(async user => {
+            let data = await table.get(`isBlocked${args[0]}`);
+          if(data === true){
+            await table.delete(`isBlocked${args[0]}`);
+                  return message.channel.send(`Successfully unblocked ${user.username} (${user.id}) from the modmail service.`);
+          } else {
+            return message.channel.send(`${user.username} (${user.id}) is not blocked from the modmail at the moment.`)
+          }
+              }).catch(err => {
+                if(err) return message.channel.send("Unknown user.");
+              })
+      } else {
+        return message.channel.send("You can not use that.");
+      }
+    }
+  })
+//end modmail
 client.login(process.env.TOKEN)

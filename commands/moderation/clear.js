@@ -1,5 +1,6 @@
 module.exports = {
     name: 'clear',
+    aliases: ['clean', 'purge'],
     async execute(client, message, args, Discord) {
       message.delete()
 

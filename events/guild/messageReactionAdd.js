@@ -1,6 +1,5 @@
 module.exports = async (Discord, client, reaction, user) => {
-     const channel1 = reaction.message.guild.channels.cache.find(c => c.name === '「✅」verify')
-     if(!channel1) return;
+     const channel1 = await reaction.message.guild.channels.cache.get('812858248122204182')
      //return;
      const b = reaction.emoji.name
      if(reaction.message.partial) await reaction.message.fetch()
@@ -9,13 +8,13 @@ module.exports = async (Discord, client, reaction, user) => {
      if(!reaction.message.guild) return;
 
      //Verification
-     const verified = reaction.message.guild.roles.cache.find('812858247501185068');
+     const verified = reaction.message.guild.roles.cache.find(r => r.name === '✔️VERIFIED✔️');
 
      const Everified= '✅'
 
      if(reaction.message.channel.id === channel1.id){
           if(b === Everified) {
-               reaction.message.guild.members.cache.get(user.id).roles.add(verified)  
+               reaction.message.guild.members.cache.get(user.id).roles.add(verified)
           }
      }
 

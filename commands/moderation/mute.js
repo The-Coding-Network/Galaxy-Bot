@@ -1,11 +1,12 @@
 const Discord = require("discord.js"); // Require important constants
 const ms = require('ms');
+const db = require('quick.db')
 
 module.exports = {
     name:"mute",
     async execute(client, msg, args)  {
         msg.delete()
-        var logs = msg.guild.channels.cache.find(c => c.name === '🔒-logs'); // Define logging channel
+        var logs = msg.guild.channels.cache.find(c => c.name === '🔐↣｜logs'); // Define logging channel
         var verify = msg.guild.emojis.cache.find(emoji => emoji.name === 'yes'); // Define confirmation emoji
         if(!msg.member.hasPermission('MANAGE_MESSAGES')) return msg.reply("You do not have permission to use this command");
  
@@ -19,6 +20,14 @@ module.exports = {
         var targetID = msg.guild.members.cache.get(target.id)
         if(targetID.hasPermission('MANAGE_MESSAGES')) return msg.reply("You can not mute a staff member"); 
         if(!args[1]) {
+            if(!db.get(`user_${targetID.id}`)){
+                db.set(`user_${targetID.id}`, {warns: 0, kicks: 0, bans: 0, mutes: 0})
+            }
+            if(db.get(`user_${targetID.id}`)){
+                db.add(`user_${targetID.id}.mutes`, 1)
+                msg.reply(`This person now has ${db.get(`user_${targetID.id}.mutes`)} mutes`)
+            }
+
         
             targetID.roles.add(muteRole)
             targetID.roles.remove(main)

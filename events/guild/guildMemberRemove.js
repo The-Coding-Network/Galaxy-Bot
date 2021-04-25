@@ -4,7 +4,7 @@ module.exports = async (Discord, client, member) => {
 
     const embed = new Discord.MessageEmbed()
     .setTitle("Member Left")
-    .setDescription(`${member.user.tag} has left ${member.guild.name}`)
+    .setDescription(`${member} has left ${member.guild.name}`)
     .setTimestamp()
 
     cwelcome.send(embed)

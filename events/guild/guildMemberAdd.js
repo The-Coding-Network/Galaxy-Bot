@@ -4,7 +4,7 @@ module.exports = async (Discord, client, member) => {
 
     const embed = new Discord.MessageEmbed()
     .setTitle("Member Joined")
-    .setDescription(`${member.user.tag} has joined ${member.guild.name}`)
+    .setDescription(`${member} has joined ${member.guild.name}`)
     .setTimestamp()
 
     cwelcome.send(embed)

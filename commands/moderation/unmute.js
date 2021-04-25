@@ -10,8 +10,8 @@ module.exports = {
         if(!target) return msg.reply('you need to mention a user for me to unmute them!')
         var targetID = msg.guild.members.cache.get(target.id)
 
-        var main = msg.guild.roles.cache.find(role => role.name === 'Verified');
-        var muteRole = msg.guild.roles.cache.find(role => role.name === 'Muted');
+        var main = msg.guild.roles.cache.find(role => role.name === '✔️VERIFIED✔️');
+        var muteRole = msg.guild.roles.cache.find(role => role.name === '❌MUTED ❌');
 
         targetID.roles.remove(muteRole)
         targetID.roles.add(main)

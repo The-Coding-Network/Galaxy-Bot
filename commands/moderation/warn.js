@@ -1,8 +1,5 @@
-// Require Discord JS
- 
 const Discord = require('discord.js');
- 
-// Run Command Handler And Code
+const db = require('quick.db')
  
 module.exports = {
     name:"warn",
@@ -42,4 +39,37 @@ var embed = new Discord.MessageEmbed()
     } catch(err) {
     console.warn(err);
         }
-        }}
+
+    var user = member
+    
+
+    if(!db.get(`user_${member.id}`)){
+        db.set(`user_${member.id}`, {warns: 0, kicks: 0, bans: 0, mutes: 0})
+    }
+    db.add(`user_${member.id}.warns`, 1)
+    let warns = db.get(`user_${member.id}.warns`)
+    console.log(`${user} has ${db.get(`user_${member.id}.warns`)}`)
+
+    if(db.get(`user_${member.id}.warns`) === 5){
+        //Mute the person
+        var main = msg.guild.roles.cache.find(role => role.name === '✔️VERIFIED✔️');
+        var muteRole = msg.guild.roles.cache.find(role => role.name === '❌MUTED ❌');
+        var userLog = new Discord.MessageEmbed()
+        .setColor('0x05ff4c')
+        .setTitle(`You have been muted for 1 hour in ${msg.guild.name}!\nReason: Auto mute for 3 warns`)
+        user.roles.add(muteRole)
+        user.roles.remove(main)
+        user.send(userLog)
+        
+        setTimeout(function () {
+            user.roles.remove(muteRole)
+            user.roles.add(main)
+        } , 10000);
+        
+
+
+    }
+
+    }
+
+}

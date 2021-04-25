@@ -13,8 +13,8 @@ module.exports = {
         if(!target) return msg.reply('you need to mention a user for me to mute them!')
 
  
-        var main = msg.guild.roles.cache.find(role => role.name === 'Verified'); // Main role that you have
-        var muteRole = msg.guild.roles.cache.find(role => role.name === 'Muted'); // Your mute role
+        var main = msg.guild.roles.cache.find(role => role.name === '✔️VERIFIED✔️');
+        var muteRole = msg.guild.roles.cache.find(role => role.name === '❌MUTED ❌');
  
         var targetID = msg.guild.members.cache.get(target.id)
         if(targetID.hasPermission('MANAGE_MESSAGES')) return msg.reply("You can not mute a staff member"); 

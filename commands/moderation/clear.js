@@ -1,6 +1,6 @@
 module.exports = {
     name: 'clear',
-    aliases: ['clean', 'purge'],
+    aliases: ['clean', 'purge'], 
     async execute(client, message, args, Discord) {
       message.delete()
 
@@ -13,6 +13,7 @@ module.exports = {
               amount = message.content.split(' ')[1];
               if (amount > 100) {
                 amount = 100;
+                
               }
             }
             await message.channel.bulkDelete(amount, true).then((_message) => {

@@ -1,3 +1,7 @@
+const db = require('quick.db')
+const mongo = require('../../mongo')
+const punishmentSchema = require('../../schemas/punishmentlog')
+
 module.exports = {
     name: 'kick',
     async execute(client, msg, args, Discord, offlines) {
@@ -18,7 +22,7 @@ module.exports = {
     
         var reason = args.splice(1).join(' ');
         if(!reason) return msg.reply('You did not mention a reason!').then(msg => msg.delete({timeout: 600000}));
-        var channel = msg.guild.channels.cache.find(c => c.name === ':lock:-logs');
+        let channel = msg.guild.channels.cache.find(c => c.name === '🔐↣｜logs');
         var log = new Discord.MessageEmbed()
         .setColor('0x05ff4c')
         .setDescription(`${user} has been kicked by ${msg.author} for "**${reason}**`)
@@ -38,5 +42,21 @@ module.exports = {
         .setDescription(`${user} has been kicked by ${msg.author}`)
         msg.channel.send(confir);
         msg.delete();
+        if(!db.get(`user_${member.id}`)){
+            db.set(`user_${member.id}`, {warns: 0, kicks: 0, bans: 0, mutes: 0, automod: 0})
+        }
+        db.add(`user_${member.id}.kicks`, 1)
+        await mongo().then(async (mongoose) => {
+            try {
+                await new punishmentSchema({
+                    userID: member.id,
+                    type: 'KICK',
+                    reason: reason,
+                    by: msg.author.id
+                }).save()
+            } finally {
+                mongoose.connection.close()
+            }
+        })
     }
     }

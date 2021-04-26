@@ -1,6 +1,8 @@
 const Discord = require("discord.js"); // Require important constants
 const ms = require('ms');
 const db = require('quick.db')
+const mongo = require('../../mongo')
+const punishmentSchema = require('../../schemas/punishmentlog')
 
 module.exports = {
     name:"mute",
@@ -19,16 +21,8 @@ module.exports = {
  
         var targetID = msg.guild.members.cache.get(target.id)
         if(targetID.hasPermission('MANAGE_MESSAGES')) return msg.reply("You can not mute a staff member"); 
-        if(!args[1]) {
-            if(!db.get(`user_${target.id}`)){
-                db.set(`user_${target.id}`, {warns: 0, kicks: 0, bans: 0, mutes: 0})
-            }
-            if(db.get(`user_${target.id}`)){
-                db.add(`user_${target.id}.mutes`, 1)
-                msg.reply(`This person now has ${db.get(`user_${target.id}.mutes`)} mutes`)
-            }
+        if(!args[1]) {         
 
-        
             targetID.roles.add(muteRole)
             targetID.roles.remove(main)
             var confirmation = new Discord.MessageEmbed()
@@ -56,6 +50,24 @@ module.exports = {
     
         targetID.roles.add(muteRole)
         targetID.roles.remove(main)
+        if(!db.get(`user_${member.id}`)){
+            db.set(`user_${member.id}`, {warns: 0, kicks: 0, bans: 0, mutes: 0, automod: 0})
+        }
+        db.add(`user_${member.id}.mutes`, 1)
+        await mongo().then(async (mongoose) => {
+            try {
+                await new punishmentSchema({
+                    userID: targetID.user.id,
+                    type: 'MUTE',
+                    reason: args[1],
+                    by: msg.author.id
+                }).save()
+            } finally {
+                mongoose.connection.close()
+            }
+        })
+
+
     
         var confirmation = new Discord.MessageEmbed()
         .setColor('0x05ff4c')

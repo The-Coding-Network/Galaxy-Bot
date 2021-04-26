@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const db = require('quick.db')
+const mongo = require('../../mongo')
+const punishmentSchema = require('../../schemas/punishmentlog')
  
 module.exports = {
     name:"warn",
@@ -41,10 +43,23 @@ var embed = new Discord.MessageEmbed()
         }
 
     var user = member
+
+    await mongo().then(async (mongoose) => {
+        try {
+            await new punishmentSchema({
+                userID: member.id,
+                type: 'WARN',
+                reason: reason,
+                by: msg.author.id
+            }).save()
+        } finally {
+            mongoose.connection.close()
+        }
+    })
     
 
     if(!db.get(`user_${member.id}`)){
-        db.set(`user_${member.id}`, {warns: 0, kicks: 0, bans: 0, mutes: 0})
+        db.set(`user_${member.id}`, {warns: 0, kicks: 0, bans: 0, mutes: 0, automod: 0})
     }
     db.add(`user_${member.id}.warns`, 1)
     let warns = db.get(`user_${member.id}.warns`)

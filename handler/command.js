@@ -11,6 +11,6 @@ module.exports = (client, Discord) => {
         }
         
     }
-    ['moderation', 'other', 'fun', 'Reaction_Roles', 'bot_admins'].forEach(e => load_dir(e));
+    ['moderation', 'other', 'Reaction_Roles', 'bot_admins'].forEach(e => load_dir(e));
 
 }

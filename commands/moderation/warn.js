@@ -76,6 +76,19 @@ var embed = new Discord.MessageEmbed()
         user.roles.remove(main)
         user.send(userLog)
         db.add(`user_${member.id}.mutes`, 1);
+
+        await mongo().then(async (mongoose) => {
+            try {
+                await new punishmentSchema({
+                    userID: member.id,
+                    type: 'MUTE',
+                    reason: 'Auto mute (30 minutes) for 3 warns',
+                    by: 'AutoMod'
+                }).save()
+            } finally {
+                mongoose.connection.close()
+            }
+        })
         
         setTimeout(function () {
             user.roles.remove(muteRole)
@@ -93,6 +106,19 @@ var embed = new Discord.MessageEmbed()
         user.roles.remove(main)
         user.send(userLog)
         db.add(`user_${member.id}.mutes`, 1);
+
+        await mongo().then(async (mongoose) => {
+            try {
+                await new punishmentSchema({
+                    userID: member.id,
+                    type: 'MUTE',
+                    reason: 'Auto mute (1 hour) for 4 warns',
+                    by: 'AutoMod'
+                }).save()
+            } finally {
+                mongoose.connection.close()
+            }
+        })
         
         setTimeout(function () {
             user.roles.remove(muteRole)
@@ -108,7 +134,21 @@ var embed = new Discord.MessageEmbed()
         .setTitle(`You have been kicked from ${msg.guild.name}!\nReason: Auto kick for 5 warns`)
         await user.send(userLog)
         db.add(`user_${member.id}.kicks`, 1);
-        await member.kick("Auto kick for 5 warns")       
+        await member.kick("Auto kick for 5 warns") 
+        await mongo().then(async (mongoose) => {
+            try {
+                await new punishmentSchema({
+                    userID: member.id,
+                    type: 'KICK',
+                    reason: 'Auto kick for 5 warns',
+                    by: 'AutoMod'
+                }).save()
+            } finally {
+                mongoose.connection.close()
+            }
+        })
+        
+        
  
     }
     if(db.get(`user_${member.id}.warns`) === 6){
@@ -121,6 +161,20 @@ var embed = new Discord.MessageEmbed()
         await user.send(userLog)
         db.add(`user_${member.id}.bans`, 1);
         await member.ban() 
+
+        await mongo().then(async (mongoose) => {
+            try {
+                await new punishmentSchema({
+                    userID: member.id,
+                    type: 'BAN',
+                    reason: 'Auto ban (2 bans) for 6 warns',
+                    by: 'AutoMod'
+                }).save()
+            } finally {
+                mongoose.connection.close()
+            }
+        })
+
         setTimeout(function () {
             user.unban()
         } , 172800000);     
@@ -135,7 +189,20 @@ var embed = new Discord.MessageEmbed()
         .setTitle(`You have been banned from ${msg.guild.name}!\nReason: Auto perm-ban for 7 warns`)
         user.send(userLog)
         db.add(`user_${member.id}.bans`, 1);
-        member.ban()    
+        member.ban()  
+        
+        await mongo().then(async (mongoose) => {
+            try {
+                await new punishmentSchema({
+                    userID: member.id,
+                    type: 'BAN',
+                    reason: 'Auto ban (cemi-perm) for 7 warns',
+                    by: 'AutoMod'
+                }).save()
+            } finally {
+                mongoose.connection.close()
+            }
+        })
  
     }
     if(db.get(`user_${member.id}.warns`) === 8){
@@ -148,6 +215,19 @@ var embed = new Discord.MessageEmbed()
         user.send(userLog)
         db.add(`user_${member.id}.bans`, 1);
         member.ban()    
+
+        await mongo().then(async (mongoose) => {
+            try {
+                await new punishmentSchema({
+                    userID: member.id,
+                    type: 'BAN',
+                    reason: 'Auto perm ban for 8 warns',
+                    by: 'AutoMod'
+                }).save()
+            } finally {
+                mongoose.connection.close()
+            }
+        })
  
     }  
     

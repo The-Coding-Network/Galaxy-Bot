@@ -8,10 +8,10 @@ module.exports = {
     aliases: ['banish', 'banishment', 'endtimeonserver'],
     async execute(client, msg, args, Discord, offlines) {
         msg.delete();
-        if(!msg.member.hasPermission('BAN_MEMBERS')) return msg.reply('you do not have permission to use this command!').then(msg => msg.delete({timeout: 600000}));
+        if(!msg.member.hasPermission('BAN_MEMBERS')) return msg.reply('you do not have permission to use this command!').then(msg => msg.delete({timeout: 60000}));
 
         var user = msg.mentions.users.first() || msg.guild.members.cache.get(args[0]);
-        if(!user) return msg.reply('You did not mention a user!').then(msg => msg.delete({timeout: 600000}));
+        if(!user) return msg.reply('You did not mention a user!').then(msg => msg.delete({timeout: 60000}));
         var member;
         try{
             member = await msg.guild.members.fetch(user)
@@ -19,11 +19,11 @@ module.exports = {
             member = null;
         }
         if(member){
-            if(member.hasPermission('MANAGE_MESSAGES')) return msg.reply('You can not ban a staff member!').then(msg => msg.delete({timeout: 600000}));
+            if(member.hasPermission('MANAGE_MESSAGES')) return msg.reply('You can not ban a staff member!').then(msg => msg.delete({timeout: 60000}));
         }
 
         var reason = args.splice(1).join(' ');
-        if(!reason) return msg.reply('You did not mention a reason!').then(msg => msg.delete({timeout: 600000}));
+        if(!reason) return msg.reply('You did not mention a reason!').then(msg => msg.delete({timeout: 60000}));
         let channel = msg.guild.channels.cache.find(c => c.name === '🔐↣｜logs');
         var log = new Discord.MessageEmbed()
         .setColor('0x05ff4c')
@@ -32,7 +32,7 @@ module.exports = {
 
         var userLog = new Discord.MessageEmbed()
         .setColor('0x05ff4c')
-        .setDescription(`You have been banned from the server ${msg.guild.name}. You can appeal the ban by messaging a staff member`)
+        .setDescription(`You have been banned from the server **${msg.guild.name}**. You can apply here https://forms.gle/fZaGTaBxWBFRCBEz6`)
         try {
             await user.send(userLog);
         } catch(err) {

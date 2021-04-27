@@ -63,7 +63,6 @@ var embed = new Discord.MessageEmbed()
     }
     db.add(`user_${member.id}.warns`, 1)
     let warns = db.get(`user_${member.id}.warns`)
-    console.log(`${user} has ${db.get(`user_${member.id}.warns`)}`)
 
     if(db.get(`user_${member.id}.warns`) === 3){
         //Mute the person

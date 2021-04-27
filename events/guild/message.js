@@ -10,6 +10,7 @@ const punishmentSchema = require('../../schemas/punishmentlog')
 module.exports = async (Discord, client, message) => {
     let prefix = process.env.PREFIX
     const member = message.member
+    if(message.author.bot) return;    
 
     if(!message.member.hasPermission("ADMINISTRATOR")) {
         const BannedWords = []
@@ -198,7 +199,7 @@ module.exports = async (Discord, client, message) => {
 
         }            
     }
-    if(!message.content.startsWith(prefix) || message.author.bot) return;
+    if(!message.content.startsWith(prefix)) return;
     if(!message.guild) {
         //modmail?
         return;
